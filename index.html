@@ -66,6 +66,8 @@
             pointer-events: none;
         }
     </style>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body class="relative antialiased">
 
@@ -979,6 +981,46 @@
                 submitBtn.disabled = false;
             }
         });
+        // ... aapka pehle ka jo bhi code chal raha hai ...
+    // ... use mat chhedna ...
+
+    // ==================== HQ DATABASE LIVE RECEPTION SYSTEM ====================
+    const mainFirebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "ayartstudio01.firebaseapp.com",
+        databaseURL: "https://ayartstudio01-default-rtdb.firebaseio.com",
+        projectId: "ayartstudio01",
+        storageBucket: "ayartstudio01.appspot.com",
+        messagingSenderId: "754790100234",
+        appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+        firebase.initializeApp(mainFirebaseConfig);
+    }
+    const mainDb = firebase.database();
+
+    // Firebase se data live receive karna
+    mainDb.ref('dreamplays_hq/').on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+            // 1. Live News Change Logic
+            let newsTicker = document.getElementById("news-ticker") || document.getElementById("global-news"); 
+            if (newsTicker && data.newsData) {
+                newsTicker.innerText = data.newsData;
+            }
+
+            // 2. Feature Locker Logic
+            if (data.lockStatus === "UNLOCKED") {
+                console.log("HQ Command: All Cards Unlocked!");
+            } else {
+                console.log("HQ Command: Features are Locked.");
+            }
+        }
+    });
+
+</script>
     </script>
 </body>
 </html>
