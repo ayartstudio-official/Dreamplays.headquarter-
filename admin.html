@@ -217,37 +217,7 @@
         appId: "YOUR_APP_ID" // Teri App ID
     };
 
-    // Initialize Firebase if not already done
-    if (!firebase.apps.length) {
-        firebase.initializeApp(mainFirebaseConfig);
-    }
-    const mainDb = firebase.database();
-
-    // 📥 FIXED PATH: Root '/' se data live receive karne ke liye
-    mainDb.ref('/').on('value', (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-            // 1. Live News Change Logic
-            let newsTicker = document.getElementById("news-ticker") || document.getElementById("global-news"); 
-            if (newsTicker && data.newsData) {
-                newsTicker.innerText = data.newsData;
-            }
-
-            // 2. Feature Locker Logic
-            if (data.lockStatus === "UNLOCKED") {
-                console.log("HQ Command: All Cards Unlocked!");
-            } else {
-                console.log("HQ Command: Features are Locked.");
-            }
-        }
-    });
-
-</script> ```
-
-### ⚠️ Ek Choti Si Cheez Mat Bhulna:
-Is reception code ko kaam karne ke liye Firebase ki library chahiye hogi. Toh apni `index.html` me sabse upar jahan **`<head>`** tag hai (ya jahan baki links hain), wahan ye dono lines zaroor check kar lena ki judi hain ya nahi:
-
-```html
+    
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     </script>
